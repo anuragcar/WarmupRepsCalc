@@ -1,7 +1,9 @@
 # WarmupRepsCalc
 
 5x5 warmup rep calculator for the big three compound movements.
+
 Calculations are based on Dr. Mike Israetel of Renaissance Periodization's video titled "How to Warm Up for Muscle Growth Training | Hypertrophy Made Simple #3" (youtube.com/watch?v=HDq-68SlPgQ).
+
 Don't be afraid to add in more warmup sets, if needed.
 
 Need to add (in terms of priority):
