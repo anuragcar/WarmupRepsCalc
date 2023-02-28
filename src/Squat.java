@@ -2,23 +2,31 @@ public class Squat {
     // Copied from BenchPress, not done. 02-26-2023.
     // firstSet, secondSet, thirdSet, fourthSet, fifthSet take percentages of by your working weight as a single, and using the 25RM, 15RM, 12RM, 10RM, 8RM, based off of that, respectively.
     int weight, workingSets, firstSet, secondSet, thirdSet, fourthSet, fifthSet;
+    boolean highWeight;
 
     public Squat() {
         int weight = 0;
     }
 
+    private boolean highWeight() {
+        if (weight >= 245) {
+            highWeight = true;
+        }
+        return this.highWeight;
+    }
+
     public void setWorkingWeight(int weight) throws IllegalWeightException {
         this.weight = weight;
 
-        if (weight >= 0 && weight <= 50) {
+        if (weight >= 0 && weight <= 45) {
             workingSets = 1;
-        } else if (weight > 50 && weight <= 200) {
+        } else if (weight > 45 && weight <= 225) {
             workingSets = 2;
-        } else if (weight > 200 && weight <= 400) {
+        } else if (weight > 225 && weight <= 405) {
             workingSets = 3;
-        } else if (weight > 400 && weight <= 500) {
+        } else if (weight > 405 && weight <= 495) {
             workingSets = 4;
-        } else if (weight > 500) {
+        } else if (weight > 495) {
             workingSets = 5;
         } else {
             throw new IllegalWeightException("Weight must be greater than or equal to 0.");
@@ -44,6 +52,9 @@ public class Squat {
     public void printSets() {
         System.out.println("Squat sets:");
         System.out.println("2x5 45 lbs (Warmup)");
+        if (highWeight) {
+            System.out.println("1x5 135 lbs (Warmup)");
+        }
         System.out.println("1x5 " + firstSet + " lbs (Warmup)");
         if (workingSets >= 2) {
             System.out.println("1x5 " + secondSet + " lbs (Warmup)");

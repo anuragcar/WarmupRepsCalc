@@ -58,7 +58,7 @@ public class Deadlift extends Lift {
 
     public void printSets() {
         System.out.println("Deadlift sets:");
-        if (highWeight == true) {
+        if (highWeight) {
             System.out.println("1x5 135 lbs (Warmup)");
         }
         System.out.println("1x5 " + firstSet + " lbs (Warmup)");
