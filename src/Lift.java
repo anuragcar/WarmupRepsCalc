@@ -1,7 +1,7 @@
 public abstract class Lift {
 
-    int weight, metricWeight, workingSets;
-    double firstSet, secondSet, thirdSet, fourthSet, fifthSet;
+    int metricWeight, workingSets;
+    double weight, firstSet, secondSet, thirdSet, fourthSet, fifthSet;
     boolean highWeight, isMetric;
     String unit;
 

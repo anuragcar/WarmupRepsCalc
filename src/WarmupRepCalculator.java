@@ -10,11 +10,9 @@ Calculations are based on Dr. Mike Israetel of Renaissance Periodization's video
 Don't be afraid to add in more warmup sets, if needed.
 
 Need to add (in terms of priority):
-1. Metric units
-2. Add plates needed for each weight
-3. Remember previous workouts
-4. Add other exercises
-5. Add UI
+1. Add plates needed for each weight
+2. Remember previous workouts
+3. Add UI
 */
 
 public class WarmupRepCalculator {
@@ -73,6 +71,7 @@ public class WarmupRepCalculator {
             Method printSetsMethod = exerciseObject.getClass().getMethod("printSets");
             printSetsMethod.invoke(exerciseObject);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Error setting working weight: " + e.getMessage());
         }
     }
