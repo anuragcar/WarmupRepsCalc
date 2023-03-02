@@ -1,38 +1,57 @@
-public class Squat {
+public class Squat extends Lift {
     // Copied from BenchPress, not done. 02-26-2023.
     // firstSet, secondSet, thirdSet, fourthSet, fifthSet take percentages of by your working weight as a single, and using the 25RM, 15RM, 12RM, 10RM, 8RM, based off of that, respectively.
-    int weight, workingSets, firstSet, secondSet, thirdSet, fourthSet, fifthSet;
-    boolean highWeight;
 
     public Squat() {
         int weight = 0;
     }
 
-    private boolean highWeight() {
+    @Override
+    protected boolean highWeight() {
         if (weight >= 245) {
             highWeight = true;
         }
         return this.highWeight;
     }
 
-    public void setWorkingWeight(int weight) throws IllegalWeightException {
+    @Override
+    public void setWorkingWeight(int weight, String unit) throws IllegalWeightException {
         this.weight = weight;
+        this.unit = unit;
+
+        switch (unit) {
+            case "kg", "kgs" -> {
+                metricWeight = weight;
+                this.weight = (int) (metricWeight * 2.20462);
+            }
+            case "lb", "lbs" -> {
+                metricWeight = (int) (weight * 0.45359237);
+                this.weight = weight;
+            }
+            default -> throw new IllegalWeightException("Invalid weight.");
+        }
 
         if (weight >= 0 && weight <= 45) {
             workingSets = 1;
+            highWeight();
         } else if (weight > 45 && weight <= 225) {
             workingSets = 2;
+            highWeight();
         } else if (weight > 225 && weight <= 405) {
             workingSets = 3;
+            highWeight();
         } else if (weight > 405 && weight <= 495) {
             workingSets = 4;
+            highWeight();
         } else if (weight > 495) {
             workingSets = 5;
+            highWeight();
         } else {
             throw new IllegalWeightException("Weight must be greater than or equal to 0.");
         }
     }
 
+    @Override
     public void multiplier() throws IllegalWeightException {
         firstSet = (int) checkSetWeight(weight * 0.55);
         secondSet = (workingSets >= 2) ? (int) checkSetWeight(weight * 0.67) : 0;
@@ -42,13 +61,14 @@ public class Squat {
     }
 
     private double checkSetWeight(double setWeight) {
-        double roundedWeight = 5 * Math.floor(setWeight / 5);
+        double roundedWeight = 2.5 * Math.floor(setWeight / 2.5);
         if (roundedWeight < 45) {
             return 45;
         }
         return roundedWeight;
     }
 
+    @Override
     public void printSets() {
         System.out.println("Squat sets:");
         System.out.println("2x5 45 lbs (Warmup)");
