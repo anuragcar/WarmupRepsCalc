@@ -69,7 +69,7 @@ public class Squat extends Lift {
     }
 
     @Override
-    public void printSets() {
+    public void printSets(int bar) {
         System.out.println("Squat sets:");
         System.out.println("2x5 45 lbs (Warmup)");
         if (highWeight) {

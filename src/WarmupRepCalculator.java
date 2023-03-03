@@ -66,6 +66,21 @@ public class WarmupRepCalculator {
             }
         }
 
+        int bar = 0;
+        boolean barValid = false;
+        while (!barValid) {
+            System.out.print("Enter bar weight: ");
+            try {
+                bar = scanner.nextInt();
+                if (weight < 0) {
+                    throw new IllegalWeightException("Weight cannot be negative.");
+                }
+                barValid = true;
+            } catch (InputMismatchException | IllegalWeightException e) {
+                System.out.println("Weight has to be entered as an integer.");
+            }
+        }
+
         scanner.close();
         
         // Use reflection to call methods on objects
@@ -76,8 +91,8 @@ public class WarmupRepCalculator {
             Method multiplierMethod = exerciseObject.getClass().getMethod("multiplier");
             multiplierMethod.invoke(exerciseObject);
 
-            Method printSetsMethod = exerciseObject.getClass().getMethod("printSets");
-            printSetsMethod.invoke(exerciseObject);
+            Method printSetsMethod = exerciseObject.getClass().getMethod("printSets", int.class);
+            printSetsMethod.invoke(exerciseObject, bar);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error setting working weight: " + e.getMessage());

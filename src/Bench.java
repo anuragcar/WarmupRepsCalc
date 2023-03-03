@@ -78,10 +78,8 @@ public class Bench extends Lift {
     }
 
     @Override
-    public void printSets() {
+    public void printSets(int barWeight) {
         System.out.println("Bench press sets:");
-
-        System.out.println("test: " + metricWeight);
 
         if (Objects.equals(unit, "kg") || Objects.equals(unit, "kgs")) {
             System.out.println("2x5 20 kg (Warmup)");
@@ -89,22 +87,86 @@ public class Bench extends Lift {
                 System.out.println("1x5 60 kg (Warmup)");
             }
         } else {
-            System.out.println("h");
-        }
+            System.out.println("2x5 45 lbs (Warmup)");
 
+            if (highWeight) {
+                System.out.println("1x5 135 lbs (Warmup)");
+            }
+        }
         for (int i = 0; i < workingSets; i++) {
+            
             if (Objects.equals(unit, "kg") || Objects.equals(unit, "kgs")) {
                 System.out.println("1x5 " + (int) (Math.floor(workingSetWeights[i] / 2.20462)) + " kgs (Warmup)");
-            } else {
-                System.out.println("hhh");
+            } else {        
+                System.out.print("1x5 " + (workingSetWeights[i] % 1 == 0 ? String.format("%.0f", workingSetWeights[i]) : String.format("%.2f", workingSetWeights[i])) + " lbs (Warmup)" + " ");
+                double weightWithoutBar = (weight - barWeight) / 2;
+                boolean hasMoreOutput = false;
+                System.out.print("(");
+                for (int j = plates.length - 1; j >= 0; j--) {
+                    int numPlates = (int) (weightWithoutBar / plates[j]);
+                    if (numPlates > 0) {
+                        if (hasMoreOutput) {
+                            System.out.print(" ");
+                        }
+                        System.out.print(numPlates + "x" + plates[j]);
+                        weightWithoutBar -= numPlates * plates[j];
+                        hasMoreOutput = false;
+                        for (int k = j - 1; k >= 0; k--) {
+                            if ((int) (weightWithoutBar / plates[k]) > 0) {
+                                hasMoreOutput = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                System.out.println(")");
             }
         }
 
         if (Objects.equals(unit, "kg") || Objects.equals(unit, "kgs")) {
             System.out.println("1x2 " + metricWeight + " kg (Potentiation)");
+            System.out.println(")");
             System.out.println("5x5 " + metricWeight + " kg (Working Weight)");
             System.out.println("Don't be afraid to add in more warmup sets, if needed.");
+        } else {
+            double weightWithoutBar = (weight - barWeight) / 2;
+            boolean hasMoreOutput = false;
+            String workingWeightPlates = "";
+            for (int a = 0; a < 2; a++) {
+                if (a == 0) {
+                    System.out.print("1x2 " + (weight % 1 == 0 ? String.format("%.0f", weight) : String.format("%.2f", weight)) + " lbs (Potentiation) ");
+                    System.out.print("(");
+                }
+                else if (a == 1) {
+                    System.out.print("5x5 " + (weight % 1 == 0 ? String.format("%.0f", weight) : String.format("%.2f", weight)) + " lbs (Working Weight) ");
+                    weightWithoutBar = (weight - barWeight) / 2;
+                    System.out.print("(");
+                }
+
+                for (int j = plates.length - 1; j >= 0; j--) {
+                    int numPlates = (int) (weightWithoutBar / plates[j]);
+                    if (numPlates > 0) {
+                        if (hasMoreOutput) {
+                            System.out.print(" ");
+                        }
+                        workingWeightPlates = numPlates + "x" + plates[j];
+                        System.out.print(workingWeightPlates.trim());
+                        weightWithoutBar -= numPlates * plates[j];
+                        hasMoreOutput = false;
+                        for (int k = j - 1; k >= 0; k--) {
+                            if ((int) (weightWithoutBar / plates[k]) > 0) {
+                                hasMoreOutput = true;
+                            }
+                        }
+                    }
+                }
+                System.out.println(")");
+                hasMoreOutput = false;
+            }
+            System.out.println("Don't be afraid to add in more warmup sets, if needed.");
         }
+
+
         /*
         if (Objects.equals(unit, "kg") || Objects.equals(unit, "kgs")) {
             System.out.println("2x5 20 kg (Warmup)");
@@ -142,20 +204,20 @@ public class Bench extends Lift {
             if (workingSets >= 2) {
                 System.out.print("1x5 " + (secondSet % 1 == 0 ? String.format("%.0f", secondSet) : String.format("%.2f", secondSet)) + " lbs (Warmup)" + " ");
 
-                double weightWithBar = (weight - barWeight) / 2;
+                double weightWithoutBar = (weight - barWeight) / 2;
                 boolean hasMoreOutput = false;
                 System.out.print("(");
                 for (int i = plates.length - 1; i >= 0; i--) {
-                    int numPlates = (int) (weightWithBar / plates[i]);
+                    int numPlates = (int) (weightWithoutBar / plates[i]);
                     if (numPlates > 0) {
                         if (hasMoreOutput) {
                             System.out.print(" ");
                         }
                         System.out.print(numPlates + "x" + plates[i]);
-                        weightWithBar -= numPlates * plates[i];
+                        weightWithoutBar -= numPlates * plates[i];
                         hasMoreOutput = false;
                         for (int j = i - 1; j >= 0; j--) {
-                            if ((int) (weightWithBar / plates[j]) > 0) {
+                            if ((int) (weightWithoutBar / plates[j]) > 0) {
                                 hasMoreOutput = true;
                                 break;
                             }

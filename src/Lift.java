@@ -4,6 +4,7 @@ public abstract class Lift {
     double weight, firstSet, secondSet, thirdSet, fourthSet, fifthSet;
     boolean highWeight, isMetric;
     String unit;
+    public float [] plates = new float[]{2.5f, 5f, 10f, 25f, 35f, 45f};
 
     protected abstract boolean highWeight();
     public abstract void setWorkingWeight(int weight, String unit) throws IllegalWeightException;
@@ -16,6 +17,6 @@ public abstract class Lift {
         }
         return roundedWeight;
     }
-    public abstract void printSets();
+    public abstract void printSets(int bar);
 
 }
