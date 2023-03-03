@@ -46,6 +46,7 @@ public class WarmupRepCalculator {
                 System.out.println("Invalid measurement system selected.");
             }
         }
+        
         boolean validInput = false;
         while (!validInput) {
             System.out.print("Enter working weight: ");
