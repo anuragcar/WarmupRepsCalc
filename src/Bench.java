@@ -4,6 +4,8 @@ public class Bench extends Lift {
 
     // firstSet, secondSet, thirdSet, fourthSet, fifthSet take percentages of by your working weight as a single, and using the 25RM, 15RM, 12RM, 10RM, 8RM, based off of that, respectively.
 
+    private double[] workingSetWeights = new double[5];
+
     public Bench() {
         this.weight = 0;
     }
@@ -56,10 +58,15 @@ public class Bench extends Lift {
     @Override
     public void multiplier() throws IllegalWeightException {
         firstSet = (int) checkSetWeight(weight * 0.55);
+        workingSetWeights[0] = firstSet;
         secondSet = (workingSets >= 2) ? (int) checkSetWeight(weight * 0.67) : 0;
+        workingSetWeights[1] = secondSet;
         thirdSet = (workingSets >= 3) ? (int) checkSetWeight(weight * 0.71) : 0;
+        workingSetWeights[2] = thirdSet;
         fourthSet = (workingSets >= 4) ? (int) checkSetWeight(weight * 0.75) : 0;
+        workingSetWeights[3] = fourthSet;
         fifthSet = (workingSets >= 5) ? (int) checkSetWeight(weight * 0.81) : 0;
+        workingSetWeights[4] = fifthSet;
     }
 
     private double checkSetWeight(double setWeight) {
@@ -73,7 +80,32 @@ public class Bench extends Lift {
     @Override
     public void printSets() {
         System.out.println("Bench press sets:");
-        
+
+        System.out.println("test: " + metricWeight);
+
+        if (Objects.equals(unit, "kg") || Objects.equals(unit, "kgs")) {
+            System.out.println("2x5 20 kg (Warmup)");
+            if (highWeight) {
+                System.out.println("1x5 60 kg (Warmup)");
+            }
+        } else {
+            System.out.println("h");
+        }
+
+        for (int i = 0; i < workingSets; i++) {
+            if (Objects.equals(unit, "kg") || Objects.equals(unit, "kgs")) {
+                System.out.println("1x5 " + (int) (Math.floor(workingSetWeights[i] / 2.20462)) + " kgs (Warmup)");
+            } else {
+                System.out.println("hhh");
+            }
+        }
+
+        if (Objects.equals(unit, "kg") || Objects.equals(unit, "kgs")) {
+            System.out.println("1x2 " + metricWeight + " kg (Potentiation)");
+            System.out.println("5x5 " + metricWeight + " kg (Working Weight)");
+            System.out.println("Don't be afraid to add in more warmup sets, if needed.");
+        }
+        /*
         if (Objects.equals(unit, "kg") || Objects.equals(unit, "kgs")) {
             System.out.println("2x5 20 kg (Warmup)");
             if (highWeight) {
@@ -109,7 +141,7 @@ public class Bench extends Lift {
 
             if (workingSets >= 2) {
                 System.out.print("1x5 " + (secondSet % 1 == 0 ? String.format("%.0f", secondSet) : String.format("%.2f", secondSet)) + " lbs (Warmup)" + " ");
-                
+
                 double weightWithBar = (weight - barWeight) / 2;
                 boolean hasMoreOutput = false;
                 System.out.print("(");
@@ -145,6 +177,6 @@ public class Bench extends Lift {
             System.out.println("1x2 " + (weight % 1 == 0 ? String.format("%.0f", weight) : String.format("%.2f", weight)) + " lbs (Potentiation)");
             System.out.println("5x5 " + (weight % 1 == 0 ? String.format("%.0f", weight) : String.format("%.2f", weight)) + " lbs (Working Weight)");
             System.out.println("Don't be afraid to add in more warmup sets, if needed.");
+*/
         }
     }
-}
