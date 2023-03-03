@@ -109,6 +109,7 @@ public class Bench extends Lift {
 
             if (workingSets >= 2) {
                 System.out.print("1x5 " + (secondSet % 1 == 0 ? String.format("%.0f", secondSet) : String.format("%.2f", secondSet)) + " lbs (Warmup)" + " ");
+                
                 double weightWithBar = (weight - barWeight) / 2;
                 boolean hasMoreOutput = false;
                 System.out.print("(");
@@ -116,21 +117,20 @@ public class Bench extends Lift {
                     int numPlates = (int) (weightWithBar / plates[i]);
                     if (numPlates > 0) {
                         if (hasMoreOutput) {
-                            System.out.print(" "); // add a space
+                            System.out.print(" ");
                         }
                         System.out.print(numPlates + "x" + plates[i]);
                         weightWithBar -= numPlates * plates[i];
-                        hasMoreOutput = false; // set hasMoreOutput to false by default
+                        hasMoreOutput = false;
                         for (int j = i - 1; j >= 0; j--) {
                             if ((int) (weightWithBar / plates[j]) > 0) {
-                                hasMoreOutput = true; // set hasMoreOutput to true if there are more outputs
+                                hasMoreOutput = true;
                                 break;
                             }
                         }
                     }
                 }
                 System.out.println(")");
-                System.out.println();
             }
 
             if (workingSets >= 3) {

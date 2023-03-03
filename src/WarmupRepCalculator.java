@@ -10,9 +10,10 @@ Calculations are based on Dr. Mike Israetel of Renaissance Periodization's video
 Don't be afraid to add in more warmup sets, if needed.
 
 Need to add (in terms of priority):
-1. Fix decimal points: plates needed for workout have .0's, and warmup reps drop the .5 when rounding to the nearest 2.5 place.
-2. Add (JavaFX) UI.
-3. Remember previous workouts.
+1. Make input not case sensitive 
+2. Fix decimal points: plates needed for workout have .0's, and warmup reps drop the .5 when rounding to the nearest 2.5 place.
+3. Add (JavaFX) UI.
+4. Remember previous workouts.
 */
 
 public class WarmupRepCalculator {
@@ -20,13 +21,17 @@ public class WarmupRepCalculator {
         Scanner scanner = new Scanner(System.in);
 
         int weight = 0;
-        String userExercise, unit = "";
+        String userExercise, userExerciseFirstLetter, userExerciseRest, unit = "";
         Object exerciseObject = null;
         boolean inputValid = false;
 
         while (!inputValid) {
-            System.out.println("Select: Squat, Bench, Deadlift (CASE SENSITIVE)");
+            System.out.println("Select: Squat, Bench, Deadlift");
             userExercise = scanner.nextLine();
+            userExerciseFirstLetter = userExercise.substring(0, 1).toUpperCase();
+            userExerciseRest = userExercise.substring(1).toLowerCase();
+            userExercise = userExerciseFirstLetter + userExerciseRest;
+
             try {
                 // Dynamically instantiates the selected class by user input
                 Class<?> exerciseClass = Class.forName(userExercise);
