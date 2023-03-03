@@ -10,9 +10,9 @@ Calculations are based on Dr. Mike Israetel of Renaissance Periodization's video
 Don't be afraid to add in more warmup sets, if needed.
 
 Need to add (in terms of priority):
-1. Add plates needed for each weight
-2. Remember previous workouts
-3. Add UI
+1. Fix decimal points: plates needed for workout have .0's, and warmup reps drop the .5 when rounding to the nearest 2.5 place.
+2. Add (JavaFX) UI
+3. Remember previous workouts
 */
 
 public class WarmupRepCalculator {
@@ -60,6 +60,8 @@ public class WarmupRepCalculator {
             }
         }
 
+        scanner.close();
+        
         // Use reflection to call methods on objects
         try {
             Method setWeightMethod = exerciseObject.getClass().getMethod("setWorkingWeight", int.class, String.class);

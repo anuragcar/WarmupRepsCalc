@@ -73,6 +73,7 @@ public class Bench extends Lift {
     @Override
     public void printSets() {
         System.out.println("Bench press sets:");
+        
         if (Objects.equals(unit, "kg") || Objects.equals(unit, "kgs")) {
             System.out.println("2x5 20 kg (Warmup)");
             if (highWeight) {
@@ -95,14 +96,43 @@ public class Bench extends Lift {
             System.out.println("5x5 " + metricWeight + " kg (Working Weight)");
             System.out.println("Don't be afraid to add in more warmup sets, if needed.");
         } else {
+            int barWeight = 45;        
+            float [] plates = new float[]{2.5f, 5f, 10f, 25f, 35f, 45f};
+
             System.out.println("2x5 45 lbs (Warmup)");
+
             if (highWeight) {
                 System.out.println("1x5 135 lbs (Warmup)");
             }
+
             System.out.println("1x5 " + (firstSet % 1 == 0 ? String.format("%.0f", firstSet) : String.format("%.2f", firstSet)) + " lbs (Warmup)");
+
             if (workingSets >= 2) {
-                System.out.println("1x5 " + (secondSet % 1 == 0 ? String.format("%.0f", secondSet) : String.format("%.2f", secondSet)) + " lbs (Warmup)");
+                System.out.print("1x5 " + (secondSet % 1 == 0 ? String.format("%.0f", secondSet) : String.format("%.2f", secondSet)) + " lbs (Warmup)" + " ");
+                double weightWithBar = (weight - barWeight) / 2;
+                boolean hasMoreOutput = false;
+                System.out.print("(");
+                for (int i = plates.length - 1; i >= 0; i--) {
+                    int numPlates = (int) (weightWithBar / plates[i]);
+                    if (numPlates > 0) {
+                        if (hasMoreOutput) {
+                            System.out.print(" "); // add a space
+                        }
+                        System.out.print(numPlates + "x" + plates[i]);
+                        weightWithBar -= numPlates * plates[i];
+                        hasMoreOutput = false; // set hasMoreOutput to false by default
+                        for (int j = i - 1; j >= 0; j--) {
+                            if ((int) (weightWithBar / plates[j]) > 0) {
+                                hasMoreOutput = true; // set hasMoreOutput to true if there are more outputs
+                                break;
+                            }
+                        }
+                    }
+                }
+                System.out.println(")");
+                System.out.println();
             }
+
             if (workingSets >= 3) {
                 System.out.println("1x5 " + (thirdSet % 1 == 0 ? String.format("%.0f", thirdSet) : String.format("%.2f", thirdSet)) + " lbs (Warmup)");
             }
