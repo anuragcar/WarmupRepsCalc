@@ -103,4 +103,10 @@ public class Deadlift extends Lift {
         System.out.println("5x5 " + weight + " lbs (Working Weight)");
         System.out.println("Don't be afraid to add in more warmup sets, if needed.");
     }
+
+    @Override
+    public void calculateSets() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'calculateSets'");
+    }
 }

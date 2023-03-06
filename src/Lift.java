@@ -14,6 +14,7 @@ public abstract class Lift {
         if (roundedWeight < 45) { return 45; }
         return roundedWeight;
     }
+    public abstract void calculateSets();
     public abstract void printSets(/*int bar*/);
 
 }

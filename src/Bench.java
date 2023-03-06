@@ -125,11 +125,11 @@ public class Bench extends Lift {
         // Potentiation & Working Sets
         double weightWithoutBar = (weight - barWeight) / 2;
         boolean hasMoreOutput = false;
-        for (int a = 0; a < 2; a++) {
-            if (a == 0) {
+        for (int i = 0; i < 2; i++) {
+            if (i == 0) {
                 System.out.print("1x2 " + (weight % 1 == 0 ? String.format("%.0f", weight * measurementMultiplier) : String.format("%.2f", weight * measurementMultiplier)) + " " + unit + " (Potentiation) ");
                 System.out.print("(");
-            } else if (a == 1) {
+            } else if (i == 1) {
                 System.out.print("5x5 " + (weight % 1 == 0 ? String.format("%.0f", weight * measurementMultiplier) : String.format("%.2f", weight * measurementMultiplier)) + " " + unit + " (Working Weight) ");
                 weightWithoutBar = (weight - barWeight) / 2;
                 System.out.print("(");

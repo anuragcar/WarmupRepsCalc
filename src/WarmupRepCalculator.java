@@ -10,9 +10,10 @@ Calculations are based on Dr. Mike Israetel of Renaissance Periodization's video
 Don't be afraid to add in more warmup sets, if needed.
 
 To-do:
-1. Code cleanup.
-2. Add custom bar weights.
-3. Add UI (JavaFX).
+1. Add custom bar weights.
+2. Finish other lifts.
+3. Code cleanup.
+4. Add UI (JavaFX).
 */
 
 public class WarmupRepCalculator {
