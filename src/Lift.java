@@ -1,4 +1,5 @@
 public abstract class Lift {
+
     int metricWeight, workingSets;
     double weight, firstSet, secondSet, thirdSet, fourthSet, fifthSet;
     boolean highWeight, isMetric;
@@ -11,6 +12,8 @@ public abstract class Lift {
     private double checkSetWeight(double setWeight) {
         double roundedWeight = 5 * Math.floor(setWeight / 5);
         if (roundedWeight < 45) { return 45; }
-        return roundedWeight;   }
-    public abstract void printSets(int bar);
+        return roundedWeight;
+    }
+    public abstract void printSets(/*int bar*/);
+
 }

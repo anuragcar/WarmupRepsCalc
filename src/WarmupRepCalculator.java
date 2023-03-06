@@ -9,11 +9,10 @@ import java.util.Scanner;
 Calculations are based on Dr. Mike Israetel of Renaissance Periodization's video titled "How to Warm Up for Muscle Growth Training | Hypertrophy Made Simple #3" (youtube.com/watch?v=HDq-68SlPgQ).
 Don't be afraid to add in more warmup sets, if needed.
 
-Need to add (in terms of priority):
-1. Make input not case sensitive 
-2. Fix decimal points: plates needed for workout have .0's, and warmup reps drop the .5 when rounding to the nearest 2.5 place.
-3. Add (JavaFX) UI.
-4. Remember previous workouts.
+To-do:
+1. Code cleanup
+2. Add custom bar weights.
+3. Add UI (JavaFX).
 */
 
 public class WarmupRepCalculator {
@@ -66,6 +65,7 @@ public class WarmupRepCalculator {
             }
         }
 
+        /*
         int bar = 0;
         boolean barValid = false;
         while (!barValid) {
@@ -80,6 +80,7 @@ public class WarmupRepCalculator {
                 System.out.println("Weight has to be entered as an integer.");
             }
         }
+        */
 
         scanner.close();
         
@@ -91,8 +92,8 @@ public class WarmupRepCalculator {
             Method multiplierMethod = exerciseObject.getClass().getMethod("multiplier");
             multiplierMethod.invoke(exerciseObject);
 
-            Method printSetsMethod = exerciseObject.getClass().getMethod("printSets", int.class);
-            printSetsMethod.invoke(exerciseObject, bar);
+            Method printSetsMethod = exerciseObject.getClass().getMethod("printSets"/*, int.class*/);
+            printSetsMethod.invoke(exerciseObject/*, bar*/);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error setting working weight: " + e.getMessage());
