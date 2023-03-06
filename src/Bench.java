@@ -79,7 +79,7 @@ public class Bench extends Lift {
         return roundedWeight;
     }
     
-    public void calculatePlates(/*int barWeight*/) {
+    public void calculateSets(/*int barWeight*/) {
         double measurementMultiplier = 0;
         int barWeight = 45;
 
@@ -157,7 +157,7 @@ public class Bench extends Lift {
     @Override
     public void printSets(/*int barWeight*/) {
         System.out.println("Bench press sets:");
-        calculatePlates();
+        calculateSets();
         System.out.println("Don't be afraid to add in more warmup sets, if needed.");
     }
 }
