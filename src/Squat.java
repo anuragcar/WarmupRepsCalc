@@ -3,7 +3,7 @@ public class Squat extends Lift {
     // firstSet, secondSet, thirdSet, fourthSet, fifthSet take percentages of by your working weight as a single, and using the 25RM, 15RM, 12RM, 10RM, 8RM, based off of that, respectively.
 
     public Squat() {
-        int weight = 0;
+        int weight = 135;
     }
 
     @Override
@@ -21,11 +21,9 @@ public class Squat extends Lift {
 
         switch (unit) {
             case "kg", "kgs" -> {
-                metricWeight = weight;
-                this.weight = (int) (metricWeight * 2.20462);
+                this.weight = (int) (weight * 2.20462);
             }
             case "lb", "lbs" -> {
-                metricWeight = (int) (weight * 0.45359237);
                 this.weight = weight;
             }
             default -> throw new IllegalWeightException("Invalid weight.");
@@ -52,7 +50,7 @@ public class Squat extends Lift {
     }
 
     @Override
-    public void multiplier() throws IllegalWeightException {
+    public void weightMultiplier() throws IllegalWeightException {
         firstSet = (int) checkSetWeight(weight * 0.55);
         secondSet = (workingSets >= 2) ? (int) checkSetWeight(weight * 0.67) : 0;
         thirdSet = (workingSets >= 3) ? (int) checkSetWeight(weight * 0.71) : 0;
@@ -69,7 +67,7 @@ public class Squat extends Lift {
     }
 
     @Override
-    public void printSets(/*int bar*/) {
+    public void printSets(int bar) {
         System.out.println("Squat sets:");
         System.out.println("2x5 45 lbs (Warmup)");
         if (highWeight) {
@@ -94,7 +92,7 @@ public class Squat extends Lift {
     }
 
     @Override
-    public void calculateSets() {
+    public void calculateSets(int barWeight) {
         throw new UnsupportedOperationException("Unimplemented method 'calculateSets'");
     }
 }

@@ -3,7 +3,7 @@ Calculations are based on Dr. Mike Israetel of Renaissance Periodization's video
 Don't be afraid to add in more warmup sets, if needed.
 
 To-do:
-1. Add custom bar weights.
-2. Finish other lifts.
-3. Code cleanup.
-4. Add UI (JavaFX).
+[x] Add custom bar weights.
+[ ] Finish other lifts.
+[ ] Code cleanup.
+[ ] Add UI (JavaFX).

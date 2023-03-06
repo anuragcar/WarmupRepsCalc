@@ -8,7 +8,7 @@ public class Deadlift extends Lift {
     int sixthSet;
 
     public Deadlift() {
-        int weight = 0;
+        int weight = 135;
     }
 
     @Override
@@ -26,11 +26,9 @@ public class Deadlift extends Lift {
 
         switch (unit) {
             case "kg", "kgs" -> {
-                metricWeight = weight;
-                this.weight = (int) (metricWeight * 2.20462);
+                this.weight = (int) (weight * 2.20462);
             }
             case "lb", "lbs" -> {
-                metricWeight = (int) (weight * 0.45359237);
                 this.weight = weight;
             }
             default -> throw new IllegalWeightException("Invalid weight.");
@@ -60,7 +58,7 @@ public class Deadlift extends Lift {
     }
 
     @Override
-    public void multiplier() throws IllegalWeightException {
+    public void weightMultiplier() throws IllegalWeightException {
         firstSet = (int) checkSetWeight(weight * 0.4);
         secondSet = (workingSets >= 2) ? (int) checkSetWeight(weight * 0.6) : 0;
         thirdSet = (workingSets >= 3) ? (int) checkSetWeight(weight * 0.71) : 0;
@@ -78,7 +76,7 @@ public class Deadlift extends Lift {
     }
 
     @Override
-    public void printSets(/*int bar*/) {
+    public void printSets(int bar) {
         System.out.println("Deadlift sets:");
         if (highWeight) {
             System.out.println("1x5 135 lbs (Warmup)");
@@ -105,8 +103,7 @@ public class Deadlift extends Lift {
     }
 
     @Override
-    public void calculateSets() {
-        // TODO Auto-generated method stub
+    public void calculateSets(int barWeight) {
         throw new UnsupportedOperationException("Unimplemented method 'calculateSets'");
     }
 }

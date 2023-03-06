@@ -8,12 +8,6 @@ import java.util.Scanner;
 5x5 warmup reps calculator for the big three compound movements.
 Calculations are based on Dr. Mike Israetel of Renaissance Periodization's video titled "How to Warm Up for Muscle Growth Training | Hypertrophy Made Simple #3" (youtube.com/watch?v=HDq-68SlPgQ).
 Don't be afraid to add in more warmup sets, if needed.
-
-To-do:
-1. Add custom bar weights.
-2. Finish other lifts.
-3. Code cleanup.
-4. Add UI (JavaFX).
 */
 
 public class WarmupRepCalculator {
@@ -54,7 +48,7 @@ public class WarmupRepCalculator {
         
         boolean validInput = false;
         while (!validInput) {
-            System.out.print("Enter working weight: ");
+            System.out.print("Enter working weight (including the bar): ");
             try {
                 weight = scanner.nextInt();
                 if (weight < 0) {
@@ -66,7 +60,6 @@ public class WarmupRepCalculator {
             }
         }
 
-        /*
         int bar = 0;
         boolean barValid = false;
         while (!barValid) {
@@ -81,23 +74,21 @@ public class WarmupRepCalculator {
                 System.out.println("Weight has to be entered as an integer.");
             }
         }
-        */
-
-        scanner.close();
         
         // Use reflection to call methods on objects
         try {
             Method setWeightMethod = exerciseObject.getClass().getMethod("setWorkingWeight", int.class, String.class);
             setWeightMethod.invoke(exerciseObject, weight, unit);
 
-            Method multiplierMethod = exerciseObject.getClass().getMethod("multiplier");
+            Method multiplierMethod = exerciseObject.getClass().getMethod("weightMultiplier");
             multiplierMethod.invoke(exerciseObject);
 
-            Method printSetsMethod = exerciseObject.getClass().getMethod("printSets"/*, int.class*/);
-            printSetsMethod.invoke(exerciseObject/*, bar*/);
+            Method printSetsMethod = exerciseObject.getClass().getMethod("printSets", int.class);
+            printSetsMethod.invoke(exerciseObject, bar);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error setting working weight: " + e.getMessage());
         }
+        scanner.close();
     }
 }

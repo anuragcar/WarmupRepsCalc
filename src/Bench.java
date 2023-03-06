@@ -1,10 +1,10 @@
-import java.util.Objects;
+import java.util.Scanner;
 
 public class Bench extends Lift {
 
     // firstSet, secondSet, thirdSet, fourthSet, fifthSet take percentages of by your working weight as a single, and using the 25RM, 15RM, 12RM, 10RM, 8RM, based off of that, respectively.
 
-    private double[] workingSetWeights = new double[5];
+    private double[] workingWeights = new double[5];
 
     public Bench() {
         this.weight = 135;
@@ -55,17 +55,17 @@ public class Bench extends Lift {
     }
 
     @Override
-    public void multiplier() throws IllegalWeightException {
+    public void weightMultiplier() throws IllegalWeightException {
         firstSet = (int) checkSetWeight(weight * 0.55);
-        workingSetWeights[0] = firstSet;
+        workingWeights[0] = firstSet;
         secondSet = (workingSets >= 2) ? (int) checkSetWeight(weight * 0.67) : 0;
-        workingSetWeights[1] = secondSet;
+        workingWeights[1] = secondSet;
         thirdSet = (workingSets >= 3) ? (int) checkSetWeight(weight * 0.71) : 0;
-        workingSetWeights[2] = thirdSet;
+        workingWeights[2] = thirdSet;
         fourthSet = (workingSets >= 4) ? (int) checkSetWeight(weight * 0.75) : 0;
-        workingSetWeights[3] = fourthSet;
+        workingWeights[3] = fourthSet;
         fifthSet = (workingSets >= 5) ? (int) checkSetWeight(weight * 0.81) : 0;
-        workingSetWeights[4] = fifthSet;
+        workingWeights[4] = fifthSet;
     }
 
     private double checkSetWeight(double setWeight) {
@@ -76,25 +76,22 @@ public class Bench extends Lift {
         return roundedWeight;
     }
     
-    public void setPlates() {
-        if (Objects.equals(unit, "kg") || Objects.equals(unit, "kgs")) {
-            plates = new float[]{1.13f, 2.27f, 4.5f, 11.35f, 15.9f, 20.4f};
+    public void initializePlates() {
+        if (unit.equals("kg")|| (unit.equals("kgs"))) {
+            plates = new float[]{0.45f, 1.13f, 2.27f, 4.5f, 11.35f, 15.9f, 20.4f};
         } else {
-            plates = new float[]{2.5f, 5f, 10f, 25f, 35f, 45f};
+            plates = new float[]{1f, 2.5f, 5f, 10f, 25f, 35f, 45f};
         }
         
     }
-    public void calculateSets(/*int barWeight*/) {
+    public void calculateSets(int barWeight) {
         double measurementMultiplier = 0;
-        int barWeight = 45;
-        setPlates();
+        initializePlates();
 
-        if (Objects.equals(unit, "kg") || Objects.equals(unit, "kgs")) {
+        if (unit.equals("kg")|| (unit.equals("kgs"))) {
             measurementMultiplier = 0.45359237;
-            barWeight = 20;
         } else {
             measurementMultiplier = 1;
-            barWeight = 45;
         }
 
         // Initial Warmups
@@ -103,18 +100,25 @@ public class Bench extends Lift {
             System.out.println("1x5 " + barWeight + " " + unit + " " + "(Warmup)");
         }
 
+        int reps = 5;
         // Dynamic Warmups
         for (int i = 0; i < workingSets; i++) {
             double weightWithoutBar;
-            double weight = workingSetWeights[i] * measurementMultiplier;
+            double weight = workingWeights[i] * measurementMultiplier;
             double roundedWeight = Math.round(weight/5) * 5;
-            if (Objects.equals(unit, "kg") || Objects.equals(unit, "kgs")) {
+
+            if (unit.equals("kg")|| (unit.equals("kgs"))) {
                 weightWithoutBar = (roundedWeight - barWeight);
             } else {
                 weightWithoutBar = (roundedWeight - barWeight) / 2;
             }
 
-            System.out.print("1x5 " + (roundedWeight % 1 == 0 ? String.format("%.0f", roundedWeight) : String.format("%.2f", roundedWeight)) + " " + unit + " (Warmup)" + " ");
+            if (reps <= 2) {
+                reps = 2;
+            }
+
+            System.out.print("1x" + reps + " " + (roundedWeight % 1 == 0 ? String.format("%.0f", roundedWeight) : String.format("%.2f", roundedWeight)) + " " + unit + " (Warmup)" + " ");
+            reps--; reps--;
             boolean hasMoreOutput = false;
             System.out.print("(");
             for (int j = plates.length - 1; j >= 0; j--) {
@@ -143,7 +147,7 @@ public class Bench extends Lift {
             double workingWeight = weight * measurementMultiplier;
             double roundedWeight = Math.round(workingWeight/5) * 5;
             
-            if (Objects.equals(unit, "kg") || Objects.equals(unit, "kgs")) {
+            if (unit.equals("kg")|| (unit.equals("kgs"))) {
                 weightWithoutBar = (roundedWeight - barWeight);
             } else {
                 weightWithoutBar = (roundedWeight - barWeight) / 2;
@@ -178,9 +182,19 @@ public class Bench extends Lift {
     }
 
     @Override
-    public void printSets(/*int barWeight*/) {
+    public void printSets(int barWeight) {
+        Scanner scanner = new Scanner(System.in);
+        // Powerlifting bars can be as heavy as 45 lbs and technique bars as light as 15. Any lighter than 15 and you probably don't need a warmup.
+        if (barWeight >= workingWeights[0] || barWeight > 55 || barWeight < 15) {
+            while (barWeight >= workingWeights[0] || barWeight > 55 || barWeight < 15) {
+                System.out.println("Please enter a valid bar weight.");
+                barWeight = scanner.nextInt();
+            }
+        }
+        scanner.close();
+
         System.out.println("Bench press sets:");
-        calculateSets();
+        calculateSets(barWeight);
         System.out.println("Don't be afraid to add in more warmup sets, if needed.");
     }
 }

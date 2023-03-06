@@ -8,13 +8,13 @@ public abstract class Lift {
 
     protected abstract boolean highWeight();
     public abstract void setWorkingWeight(int weight, String unit) throws IllegalWeightException;
-    public abstract void multiplier() throws IllegalWeightException;
+    public abstract void weightMultiplier() throws IllegalWeightException;
     private double checkSetWeight(double setWeight) {
         double roundedWeight = 5 * Math.floor(setWeight / 5);
         if (roundedWeight < 45) { return 45; }
         return roundedWeight;
     }
-    public abstract void calculateSets();
-    public abstract void printSets(/*int bar*/);
+    public abstract void calculateSets(int barWeight);
+    public abstract void printSets(int barWeight);
 
 }
