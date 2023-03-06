@@ -1,10 +1,10 @@
 public abstract class Lift {
 
-    int metricWeight, workingSets;
+    int workingSets;
     double weight, firstSet, secondSet, thirdSet, fourthSet, fifthSet;
     boolean highWeight, isMetric;
     String unit;
-    public float [] plates = new float[]{2.5f, 5f, 10f, 25f, 35f, 45f};
+    public float [] plates;
 
     protected abstract boolean highWeight();
     public abstract void setWorkingWeight(int weight, String unit) throws IllegalWeightException;

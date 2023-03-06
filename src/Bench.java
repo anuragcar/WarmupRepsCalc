@@ -8,7 +8,6 @@ public class Bench extends Lift {
 
     public Bench() {
         this.weight = 135;
-        this.metricWeight = 60;
         this.unit = "lb";
     }
 
@@ -27,11 +26,9 @@ public class Bench extends Lift {
 
         switch (unit) {
             case "kg", "kgs" -> {
-                metricWeight = weight;
-                this.weight = (int) (metricWeight * 2.20462);
+                this.weight = (int) (weight * 2.20462);
             }
             case "lb", "lbs" -> {
-                metricWeight = (int) (weight * 0.45359237);
                 this.weight = weight;
             }
             default -> throw new IllegalWeightException("Invalid weight.");
@@ -79,9 +76,18 @@ public class Bench extends Lift {
         return roundedWeight;
     }
     
+    public void setPlates() {
+        if (Objects.equals(unit, "kg") || Objects.equals(unit, "kgs")) {
+            plates = new float[]{1.13f, 2.27f, 4.5f, 11.35f, 15.9f, 20.4f};
+        } else {
+            plates = new float[]{2.5f, 5f, 10f, 25f, 35f, 45f};
+        }
+        
+    }
     public void calculateSets(/*int barWeight*/) {
         double measurementMultiplier = 0;
         int barWeight = 45;
+        setPlates();
 
         if (Objects.equals(unit, "kg") || Objects.equals(unit, "kgs")) {
             measurementMultiplier = 0.45359237;
@@ -99,8 +105,16 @@ public class Bench extends Lift {
 
         // Dynamic Warmups
         for (int i = 0; i < workingSets; i++) {
-            System.out.print("1x5 " + ((workingSetWeights[i] * measurementMultiplier) % 1 == 0 ? String.format("%.0f", (workingSetWeights[i] * measurementMultiplier)) : String.format("%.2f", (workingSetWeights[i] * measurementMultiplier))) + " " + unit + " (Warmup)" + " ");
-            double weightWithoutBar = ((workingSetWeights[i] * measurementMultiplier) - barWeight) / 2;
+            double weightWithoutBar;
+            double weight = workingSetWeights[i] * measurementMultiplier;
+            double roundedWeight = Math.round(weight/5) * 5;
+            if (Objects.equals(unit, "kg") || Objects.equals(unit, "kgs")) {
+                weightWithoutBar = (roundedWeight - barWeight);
+            } else {
+                weightWithoutBar = (roundedWeight - barWeight) / 2;
+            }
+
+            System.out.print("1x5 " + (roundedWeight % 1 == 0 ? String.format("%.0f", roundedWeight) : String.format("%.2f", roundedWeight)) + " " + unit + " (Warmup)" + " ");
             boolean hasMoreOutput = false;
             System.out.print("(");
             for (int j = plates.length - 1; j >= 0; j--) {
@@ -123,17 +137,26 @@ public class Bench extends Lift {
         }
 
         // Potentiation & Working Sets
-        double weightWithoutBar = (weight - barWeight) / 2;
         boolean hasMoreOutput = false;
         for (int i = 0; i < 2; i++) {
+            double weightWithoutBar = 0.0;
+            double workingWeight = weight * measurementMultiplier;
+            double roundedWeight = Math.round(workingWeight/5) * 5;
+            
+            if (Objects.equals(unit, "kg") || Objects.equals(unit, "kgs")) {
+                weightWithoutBar = (roundedWeight - barWeight);
+            } else {
+                weightWithoutBar = (roundedWeight - barWeight) / 2;
+            }
             if (i == 0) {
-                System.out.print("1x2 " + (weight % 1 == 0 ? String.format("%.0f", weight * measurementMultiplier) : String.format("%.2f", weight * measurementMultiplier)) + " " + unit + " (Potentiation) ");
+                System.out.print("1x2 " + (weight % 1 == 0 ? String.format("%.0f", roundedWeight) : String.format("%.2f", roundedWeight)) + " " + unit + " (Potentiation) ");
                 System.out.print("(");
             } else if (i == 1) {
-                System.out.print("5x5 " + (weight % 1 == 0 ? String.format("%.0f", weight * measurementMultiplier) : String.format("%.2f", weight * measurementMultiplier)) + " " + unit + " (Working Weight) ");
+                System.out.print("5x5 " + (weight % 1 == 0 ? String.format("%.0f", roundedWeight) : String.format("%.2f", roundedWeight)) + " " + unit + " (Working Weight) ");
                 weightWithoutBar = (weight - barWeight) / 2;
                 System.out.print("(");
             }
+            
             for (int j = plates.length - 1; j >= 0; j--) {
                 int numPlates = (int) (weightWithoutBar / plates[j]);
                 if (numPlates > 0) {
