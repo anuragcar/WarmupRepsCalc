@@ -14,7 +14,7 @@ public class WarmupRepCalculator {
     public static void main(String[] args) throws IllegalWeightException {
         Scanner scanner = new Scanner(System.in);
 
-        int weight = 0;
+        double weight = 0;
         String userExercise, userExerciseFirstLetter, userExerciseRest, unit = "";
         Object exerciseObject = null;
         boolean inputValid = false;
@@ -50,15 +50,24 @@ public class WarmupRepCalculator {
         while (!validInput) {
             System.out.print("Enter working weight (including the bar): ");
             try {
-                weight = scanner.nextInt();
+                weight = scanner.nextDouble();
                 if (weight < 0) {
                     throw new IllegalWeightException("Weight cannot be negative.");
                 }
                 validInput = true;
-            } catch (InputMismatchException | IllegalWeightException e) {
-                System.out.println("Weight has to be entered as an integer.");
+            } catch (InputMismatchException e) {
+                if (scanner.hasNextInt()) {
+                    weight = scanner.nextInt();
+                    validInput = true;
+                } else {
+                    scanner.next();
+                    System.out.println("Weight has to be entered as a number.");
+                }
+            } catch (IllegalWeightException e) {
+                System.out.println(e.getMessage());
             }
         }
+
 
         int bar = 0;
         boolean barValid = false;
@@ -66,18 +75,22 @@ public class WarmupRepCalculator {
             System.out.print("Enter bar weight: ");
             try {
                 bar = scanner.nextInt();
-                if (weight < 0) {
-                    throw new IllegalWeightException("Weight cannot be negative.");
+                if (bar < 0) {
+                    throw new IllegalWeightException("Bar weight cannot be negative.");
                 }
                 barValid = true;
-            } catch (InputMismatchException | IllegalWeightException e) {
-                System.out.println("Weight has to be entered as an integer.");
+            } catch (InputMismatchException e) {
+                System.out.println("Bar weight has to be entered as an integer.");
+                scanner.next();
+            } catch (IllegalWeightException e) {
+                System.out.println(e.getMessage());
             }
         }
+
         
         // Use reflection to call methods on objects
         try {
-            Method setWeightMethod = exerciseObject.getClass().getMethod("setWorkingWeight", int.class, String.class);
+            Method setWeightMethod = exerciseObject.getClass().getMethod("setWorkingWeight", double.class, String.class);
             setWeightMethod.invoke(exerciseObject, weight, unit);
 
             Method multiplierMethod = exerciseObject.getClass().getMethod("weightMultiplier");

@@ -4,23 +4,28 @@ public class Bench extends Lift {
 
     // firstSet, secondSet, thirdSet, fourthSet, fifthSet take percentages of by your working weight as a single, and using the 25RM, 15RM, 12RM, 10RM, 8RM, based off of that, respectively.
 
-    private double[] workingWeights = new double[5];
+    private double[] workingWeights = new double[6];
 
     public Bench() {
         this.weight = 135;
         this.unit = "lb";
     }
 
-
     protected boolean highWeight() {
-        if (weight >= 245) {
+        if (weight >= 315) {
             highWeight = true;
+        }
+        if (unit.equals("kg")|| (unit.equals("kgs"))) {
+            highWeightSet = 60;
+        }
+        else {
+            highWeightSet = 135;
         }
         return this.highWeight;
     }
 
     @Override
-    public void setWorkingWeight(int weight, String unit) throws IllegalWeightException {
+    public void setWorkingWeight(double weight, String unit) throws IllegalWeightException {
         this.weight = weight;
         this.unit = unit;
 
@@ -40,14 +45,17 @@ public class Bench extends Lift {
         } else if (weight > 45 && weight <= 225) {
             workingSets = 2;
             highWeight();
-        } else if (weight > 225 && weight <= 405) {
+        } else if (weight > 225 && weight <= 315) {
             workingSets = 3;
             highWeight();
-        } else if (weight > 405 && weight <= 495) {
+        } else if (weight > 315 && weight <= 405) {
             workingSets = 4;
             highWeight();
-        } else if (weight > 495) {
+        } else if (weight > 405 && weight <= 495) {
             workingSets = 5;
+            highWeight();
+        } else if (weight > 495) {
+            workingSets = 6;
             highWeight();
         } else {
             throw new IllegalWeightException("Weight must be greater than or equal to 0.");
@@ -56,16 +64,18 @@ public class Bench extends Lift {
 
     @Override
     public void weightMultiplier() throws IllegalWeightException {
-        firstSet = (int) checkSetWeight(weight * 0.55);
+        firstSet = (int) checkSetWeight(weight * 0.45);
         workingWeights[0] = firstSet;
-        secondSet = (workingSets >= 2) ? (int) checkSetWeight(weight * 0.67) : 0;
-        workingWeights[1] = secondSet;
-        thirdSet = (workingSets >= 3) ? (int) checkSetWeight(weight * 0.71) : 0;
-        workingWeights[2] = thirdSet;
-        fourthSet = (workingSets >= 4) ? (int) checkSetWeight(weight * 0.75) : 0;
-        workingWeights[3] = fourthSet;
-        fifthSet = (workingSets >= 5) ? (int) checkSetWeight(weight * 0.81) : 0;
-        workingWeights[4] = fifthSet;
+        secondSet = (int) checkSetWeight(weight * 0.55);
+        workingWeights[0] = secondSet;
+        thirdSet = (workingSets >= 2) ? (int) checkSetWeight(weight * 0.67) : 0;
+        workingWeights[1] = thirdSet;
+        fourthSet = (workingSets >= 3) ? (int) checkSetWeight(weight * 0.71) : 0;
+        workingWeights[2] = fourthSet;
+        fifthSet = (workingSets >= 4) ? (int) checkSetWeight(weight * 0.75) : 0;
+        workingWeights[3] = fifthSet;
+        sixthSet = (workingSets >= 5) ? (int) checkSetWeight(weight * 0.81) : 0;
+        workingWeights[4] = sixthSet;
     }
 
     private double checkSetWeight(double setWeight) {
@@ -88,7 +98,7 @@ public class Bench extends Lift {
         double measurementMultiplier = 0;
         initializePlates();
 
-        if (unit.equals("kg")|| (unit.equals("kgs"))) {
+        if (unit.equals("kg") || (unit.equals("kgs"))) {
             measurementMultiplier = 0.45359237;
         } else {
             measurementMultiplier = 1;
@@ -97,7 +107,7 @@ public class Bench extends Lift {
         // Initial Warmups
         System.out.println("2x5 " + barWeight + " " + unit + " (Warmup)");
         if (highWeight) {
-            System.out.println("1x5 " + barWeight + " " + unit + " " + "(Warmup)");
+            System.out.println("1x5 " + highWeightSet + " " + unit + " " + "(Warmup)");
         }
 
         int reps = 5;

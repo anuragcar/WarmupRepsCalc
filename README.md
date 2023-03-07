@@ -8,6 +8,6 @@ Don't be afraid to add in more warmup sets, if needed.
 
 To-do:
 - [x] ~~Add custom bar weights.~~
-- [ ] Finish other lifts.
+- [x] ~~Finish other lifts.~~
 - [ ] Code cleanup.
 - [ ] Add UI (JavaFX).
