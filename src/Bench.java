@@ -117,12 +117,14 @@ public class Bench extends Lift {
             double weight = workingWeights[i] * measurementMultiplier;
             double roundedWeight = Math.round(weight/5) * 5;
 
+            if (roundedWeight == 0) {
+                continue;
+            }
             if (unit.equals("kg")|| (unit.equals("kgs"))) {
                 weightWithoutBar = (roundedWeight - barWeight);
             } else {
                 weightWithoutBar = (roundedWeight - barWeight) / 2;
             }
-
             if (reps <= 2) {
                 reps = 2;
             }
