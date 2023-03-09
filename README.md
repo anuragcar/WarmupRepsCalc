@@ -10,4 +10,4 @@ To-do:
 - [x] ~~Add custom bar weights.~~
 - [x] ~~Finish other lifts.~~
 - [ ] Code cleanup.
-- [ ] Add UI (JavaFX).
+- [ ] Implement front end.
