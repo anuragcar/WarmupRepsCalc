@@ -9,5 +9,3 @@ Don't be afraid to add in more warmup sets, if needed.
 To-do:
 - [x] ~~Add custom bar weights.~~
 - [x] ~~Finish other lifts.~~
-- [ ] Code cleanup.
-- [ ] Implement front end.
